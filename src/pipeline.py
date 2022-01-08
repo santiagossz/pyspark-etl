@@ -18,7 +18,7 @@ class Pipeline():
         """
 
         os.environ['PYSPARK_SUBMIT_ARGS']='--driver-memory 8G --executor-memory 8G pyspark-shell'
-        self.spark=SparkSession.builder.getOrCreate()
+        self.spark=SparkSession.builder.appName("ETL pipeline").getOrCreate()
         self.sc= self.spark.sparkContext
   
   
@@ -28,7 +28,7 @@ class Pipeline():
         distributed download of HTTP files on every node
         
         """
-        
+
         self.files=files
 
         for file in self.files:
@@ -52,7 +52,7 @@ class Pipeline():
             store_path=f'./data/{file.split(".")[0]}'
 
             if '.json' in file:
-                df=self.spark.read.option('inferTimestamp','false').json(file_path)
+                df=self.spark.read.json(file_path)
                 df.write.parquet(store_path)
             elif '.csv' in file:
                 df=self.spark.read.option('header',True).option("inferSchema",True).csv(file_path)
