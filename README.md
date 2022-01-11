@@ -42,9 +42,10 @@ execute the python script to complete the etl
 
 `docker exec -it etl python /home/jovyan/work/main.py`
 
-Note: depending on your machine resources, the process may take some time (As there are huge datasets to be downloaded and stored)
+Note: depending on your machine resources, the process may take some time (as the docker image contains the data to speed up the process)
+& at the beggining of the run, the API starts a spark session
 
-http://172.17.0.2:5000/
+api status (http://172.17.0.2:5000/)
 - orders (http://172.17.0.2:5000/orders)
 - top restaurants (http://172.17.0.2:5000/customer-top-restaurants)
 
