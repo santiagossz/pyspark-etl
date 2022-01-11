@@ -23,7 +23,7 @@ class Pipeline():
 
         self.spark=SparkSession.builder.appName("ETL pipeline")\
         .config("spark.sql.warehouse.dir", self.SPARK_WAREHOUSE)\
-        .config('spark.driver.extraJavaOptions',f'-Dderby.system.home={self.SPARK_WAREHOUSE}/catalog')\
+        .config('spark.driver.extraJavaOptions',f'-Dderby.system.home=data/catalog')\
         .config("spark.io.encryption.enabled",True)\
         .config('spark.acls.enable',True)\
         .enableHiveSupport().getOrCreate()

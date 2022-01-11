@@ -9,7 +9,12 @@ RUN pip install -r requirements.txt
 ## environment variables
 ENV PYSPARK_SUBMIT_ARGS="--driver-memory 8G --executor-memory 8G pyspark-shell"
 
-ENV SPARK_WAREHOUSE=app/spark-warehouse
+ENV SPARK_WAREHOUSE=data/spark-warehouse
+
+
+VOLUME /work:/home/jovyan/work
+
 
 ## jupyter notebook configuration
 CMD ["jupyter", "notebook", "--no-browser","--NotebookApp.token=''","--NotebookApp.password=''"]
+# CMD ["python3","work/main.py"]
