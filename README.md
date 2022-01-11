@@ -47,7 +47,7 @@ Note: depending on your machine resources, the process may take some time (As th
 
 ### Testing
 
-Open the following link localhost:8000 (http://localhost:8000/)
+Open the following link localhost:8888 (http://localhost:8888/)
 
 in the folder `data/`  you will see the spark-warehouse (data) & catalog (metadata)
 
