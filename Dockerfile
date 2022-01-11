@@ -7,7 +7,7 @@ COPY . /home/jovyan
 RUN pip install -r requirements.txt
 
 ## environment variables
-ENV PYSPARK_SUBMIT_ARGS=--driver-memory 8G --executor-memory 8G pyspark-shell
+ENV PYSPARK_SUBMIT_ARGS="--driver-memory 8G --executor-memory 8G pyspark-shell"
 
 ENV SPARK_WAREHOUSE=app/spark-warehouse
 
