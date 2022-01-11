@@ -2,7 +2,7 @@
 
 ## 1st Case: ETL, Governance 
 
-This is my proposed ETL pipeline for the [iFood Engineer Test](https://github.com/ifood/ifood-data-architect-test), to process distinct files and store its data & 
+This is my proposed ETL pipeline for the [iFood Engineer Test](https://github.com/wiflore/ifood-data-engineering-test.git), to process distinct files and store its data & 
 metadata in a structured way, taking into account data access and private data protection
 
 
