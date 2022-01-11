@@ -5,7 +5,7 @@ from src.storage_verification import verify_storage_files
 
 
 bucket='https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/'
-files=['restaurant.csv.gz']
+files=['restaurant.csv.gz','consumer.csv.gz','order.json.gz']
 
 if __name__ =='__main__':
 
