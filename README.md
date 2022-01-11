@@ -44,6 +44,9 @@ execute the python script to complete the etl
 
 Note: depending on your machine resources, the process may take some time (As there are huge datasets to be downloaded and stored)
 
+http://172.17.0.2:5000/
+- orders (http://172.17.0.2:5000/orders)
+- top restaurants (http://172.17.0.2:5000/customer-top-restaurants)
 
 ### Testing
 
