@@ -1,5 +1,4 @@
-import os
-from os.path import abspath
+from os import getenv
 import timeit
 import findspark 
 findspark.init() 
@@ -18,12 +17,15 @@ class Pipeline():
         security
 
         """
+        self.SPARK_WAREHOUSE = getenv('SPARK_WAREHOUSE')
 
-        os.environ['PYSPARK_SUBMIT_ARGS']='--driver-memory 8G --executor-memory 8G pyspark-shell'
+        print('----------START CREATION OF SPARK SESSION----------')
+
         self.spark=SparkSession.builder.appName("ETL pipeline")\
-        .config("spark.sql.warehouse.dir", abspath('data/spark-warehouse'))\
-        .config('spark.driver.extraJavaOptions',f'-Dderby.system.home={abspath("data/catalog")}')\
+        .config("spark.sql.warehouse.dir", self.SPARK_WAREHOUSE)\
+        .config('spark.driver.extraJavaOptions',f'-Dderby.system.home={self.SPARK_WAREHOUSE}/catalog')\
         .config("spark.io.encryption.enabled",True)\
+        .config('spark.acls.enable',True)\
         .enableHiveSupport().getOrCreate()
 
         self.sc=self.spark.sparkContext
@@ -31,6 +33,8 @@ class Pipeline():
   
   
     def http_download_files(self,bucket,files):
+
+        print('----------START DOWNLOAD FILES FROM URLS INTO SPARK NODES----------')
 
         """
         distributed download of HTTP files on every node
@@ -42,7 +46,7 @@ class Pipeline():
         for file in self.files:
             start = timeit.default_timer()
             self.sc.addFile(bucket+file)
-            print(f'Download time of {file} :  {round(timeit.default_timer() - start,2)} seconds')  
+            print(f'Successful download of {file.upper()} in {round(timeit.default_timer() - start,2)} seconds----------')  
 
             
 
@@ -53,6 +57,7 @@ class Pipeline():
         & build a data catalog to store databases metadata
         
         """
+        print('----------CREATE SPARK DATAFRAMES FROM FILES & STORE DATA & METADATA INTO A WAREHOUSE----------')
 
         for file in self.files:
 
@@ -63,7 +68,9 @@ class Pipeline():
 
             if '.json' in file:
                 df=self.spark.read.json(file_path)
-                df.write.parquet(f'./data/spark-warehouse/{file.split(".")[0]}')
+                df.write.parquet(f'{self.SPARK_WAREHOUSE}/{file.split(".")[0]}')
+                df.createOrReplaceTempView("order")
+                
             elif '.csv' in file:
                 df=self.spark.read.option('header',True).option("inferSchema",True).csv(file_path)
                 df.createOrReplaceTempView('temp_table')
@@ -71,12 +78,14 @@ class Pipeline():
                 self.spark.sql(f"create table {file_name} using parquet as select * from temp_table")
 
 
-            print(f'Ingestion time of {file} :  {round(timeit.default_timer() - start,2)} seconds')  
+            print(f'Successful ingestion of {file.upper()} in {round(timeit.default_timer() - start,2)} seconds----------')  
+
+        print('----------ETL PROCESS SUCCESSFULLY COMPLETED----------')
 
                     
 
 
-    
+
   
 
         
