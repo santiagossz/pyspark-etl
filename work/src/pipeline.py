@@ -69,7 +69,6 @@ class Pipeline():
             if '.json' in file:
                 df=self.spark.read.json(file_path)
                 df.write.parquet(f'{self.SPARK_WAREHOUSE}/{file.split(".")[0]}')
-                df.createOrReplaceTempView("order")
                 
             elif '.csv' in file:
                 df=self.spark.read.option('header',True).option("inferSchema",True).csv(file_path)
